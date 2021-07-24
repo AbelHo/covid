@@ -2,14 +2,24 @@
 <head>
   <!-- Plotly.js -->
    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <!-- navbar.css -->
+   <link rel="stylesheet" href="css/navbar.css">
 </head>
 
 <body>
-  <div id="buttons">
+  <div id="div_navbar" class="navbar">
+    <nav id="nav_top">
+      <!-- <ul>
+        <li><a class="navbar_active" href="#">Home</a> </li>
+        <li><a href="#search">Search</a> </li>
+        <li><a href="#contact">Contact</a> </li>
+        <li><a href="#login">Login</a></li>
+      </ul> -->
+    </nav>
+  <!--     
         <input type="submit" value="something" id="button_depth" onclick="document.getElementById('graph').innerHTML='';makeplot('something','','graph')">
-
         <input type="submit" value="timeseries" id="button_depth" onclick="document.getElementById('graph').innerHTML='';csv2plot('.timeseries?type=timeseries', 'graph', 'Time')">
-
+  -->
   </div>
   <div id="graph"><!-- Plotly chart will be drawn inside this DIV --></div>
 
