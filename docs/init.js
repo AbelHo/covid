@@ -35,14 +35,18 @@ function generateTabs(list){
 
 async function init(){
 	let list = await init_fetch();
+	list2 = {}
+	list.forEach( a => { list2[a[1]] = {"url":url+a[2], "description":a[3]}; } )
+
 	const nav_prefix = 'nav_tab_'
 	document.getElementById('nav_top').innerHTML='<ul id="nav_top1">'+generateTabs(list)+'</ul>'
-	list.forEach( a => {add_eventlistener(nav_prefix+ a[1], csv2plot, url+a[2]);} )
-	list2 = {}
-	list.forEach( a => { list2[a[1]] = {"item":a[2], "description":a[3]}; } )
+	list.forEach( a => {add_eventlistener(nav_prefix+ a[1], change_tab, [[ list2[a[1]]["url"],undefined,undefined,list2[a[1]]["description"] ], nav_prefix+a[1]]);} )
 
-	if (window.location.hash){ change_tab(url+list2[window.location.hash.slice(1)]["item"], nav_prefix+window.location.hash.slice(1));}
-	else { change_tab(url+list2[Object.keys(list2)[0]]["item"], nav_prefix+Object.keys(list2)[0]);}
+	if (window.location.hash){ change_tab( [ list2[window.location.hash.slice(1)]["url"],undefined,undefined,list2[window.location.hash.slice(1)]["description"] ] , nav_prefix+window.location.hash.slice(1));}
+	else {
+		const firstkey = Object.keys(list2)[0];
+		change_tab( [ list2[firstkey]["url"],undefined,undefined,list2[firstkey]["description"] ], nav_prefix+firstkey);
+	}
 
 }
 
