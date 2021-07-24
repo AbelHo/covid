@@ -1,0 +1,27 @@
+<html>
+<head>
+  <!-- Plotly.js -->
+   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body>
+  <div id="buttons">
+        <input type="submit" value="something" id="button_depth" onclick="document.getElementById('graph').innerHTML='';makeplot('something','','graph')">
+
+        <input type="submit" value="timeseries" id="button_depth" onclick="document.getElementById('graph').innerHTML='';csv2plot('.timeseries?type=timeseries', 'graph', 'Time')">
+
+  </div>
+  <div id="graph"><!-- Plotly chart will be drawn inside this DIV --></div>
+
+  <script src="plot.js"></script>
+  <script>
+    // url = "https://raw.githubusercontent.com/CITF-Malaysia/citf-public/main/"
+    // item = "vaccination/vax_malaysia.csv"
+    url = "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/"
+    item = "epidemic/cases_malaysia.csv"
+    csv2plot(url+item, 'graph', undefined, item)
+  	//makeplot(url, url2, "graph");
+  <!-- ENTER JAVASCRIPT CODE HERE -->
+  </script>
+</body>
+</html>
