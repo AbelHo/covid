@@ -1,9 +1,9 @@
 // <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 // console.log(window.location.host)
-url = "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/"
-item = "mysejahtera/checkin_malaysia.csv"
-param = ""
+// url = "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/"
+// item = "mysejahtera/checkin_malaysia.csv"
+// param = ""
 
 // div_chart = "graph"
 
@@ -133,7 +133,7 @@ function makePlotly_multi( xkey, y , title, div_chart_id){
             { count: 1, label: 'YTD', step: 'year', stepmode: 'todate' },
             {step: 'all'} ]
         },
-        rangeslider: {autorange: true} 
+        rangeslider: {autorange: true}
     }
   });
 };

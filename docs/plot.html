@@ -7,6 +7,11 @@
 </head>
 
 <body>
+  <div id="div_urlselector">
+    <button id="button_covid_malaysia" onclick="window.location.href='?url=https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main'">covid malaysia</button>
+    <button id="button_covid_malaysia" onclick="window.location.href='?url=https://raw.githubusercontent.com/CITF-Malaysia/citf-public/main'">covid vaccination malaysia</button>
+  </div>
+
   <div id="div_navbar" class="navbar">
     <nav id="nav_top">
       <!-- <ul>
@@ -24,13 +29,14 @@
   <div id="graph"><!-- Plotly chart will be drawn inside this DIV --></div>
 
   <script src="plot.js"></script>
+  <script src="listener.js"></script>
   <script src="init.js"></script>
   <script>
     // url = "https://raw.githubusercontent.com/CITF-Malaysia/citf-public/main/"
     // item = "vaccination/vax_malaysia.csv"
-    url = "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/"
-    item = "epidemic/cases_malaysia.csv"
-    csv2plot(url+item, 'graph', undefined, item)
+    // url = "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/"
+    // item = "epidemic/cases_malaysia.csv"
+    // csv2plot(url+item, 'graph', undefined, item)
   	//makeplot(url, url2, "graph");
   <!-- ENTER JAVASCRIPT CODE HERE -->
   </script>
