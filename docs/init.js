@@ -18,10 +18,17 @@ async function init_fetch(){
 	let rq = await fetch(url+"/README.md");
 	let dat = await rq.text();
 
-	let regexp = new RegExp(/\[`([^)]+).csv`\]\(([^)]+)\): ([^\n]+)/, 'g');
-	list = [...dat.matchAll(regexp)]
-	// list.forEach( a => {console.log(a[1]);} )
-	list2={}; list.forEach( a => { list2[a[1]] = {"item":a[2], "description":a[3]}; } )
+	if (rq.status==200){
+		let regexp = new RegExp(/\[`([^)]+).csv`\]\(([^)]+)\): ([^\n]+)/, 'g');
+		list = [...dat.matchAll(regexp)]
+		// list.forEach( a => {console.log(a[1]);} )
+		list2 = {}; list.forEach( a => { list2[a[1]] = {"url":url+a[2], "description":a[3]}; } )
+	}
+	else{
+		list2={"index":{"url": url, "description":"raw csv"}};
+		list=[];
+	}
+	
 	return list
 }
 
@@ -35,8 +42,8 @@ function generateTabs(list){
 
 async function init(){
 	let list = await init_fetch();
-	list2 = {}
-	list.forEach( a => { list2[a[1]] = {"url":url+a[2], "description":a[3]}; } )
+	// list2 = {}
+	// list.forEach( a => { list2[a[1]] = {"url":url+a[2], "description":a[3]}; } )
 
 	const nav_prefix = 'nav_tab_'
 	document.getElementById('nav_top').innerHTML='<ul id="nav_top1">'+generateTabs(list)+'</ul>'
