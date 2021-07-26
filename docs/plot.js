@@ -7,6 +7,8 @@
 
 // div_chart = "graph"
 
+chart_type = 'scatter';//bar
+
 function csv2data(allRows) {
 
   console.log(allRows);
@@ -41,7 +43,7 @@ async function csv2plot(url, div_chart_id="graph", xkey=undefined, title=url) {
     else if ("date" in data)
       { xkey="date"; }
   }
-  makePlotly_multi(xkey,data,title,div_chart_id)
+  makePlotly_multi(xkey,Object.assign({},data),title,div_chart_id)
 
   // Plotly.d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/2014_apple_stock.csv", function(data){ processData(data) } );
 };
@@ -100,9 +102,10 @@ function makePlotly( x, y, title, div_chart_id){
 // xkey: key of x-axis data in (y)
 // y: object with each key as y-axis with array of data
 // sensor: grapht title
-function makePlotly_multi( xkey, y , title, div_chart_id){
+function makePlotly_multi( xkey, data , title, div_chart_id){
   // xkey = "datetime"
   // var plotDiv = document.getElementById("plot");
+  y = data;
   var traces = []
   // var traces = [{
   //   x: x, 
@@ -115,7 +118,8 @@ function makePlotly_multi( xkey, y , title, div_chart_id){
     traces.push({
         x: x, 
         y: y[key],
-        name: key
+        name: key,
+        type: chart_type
       });
     // y[key]=[];
   });
@@ -136,7 +140,9 @@ function makePlotly_multi( xkey, y , title, div_chart_id){
             {step: 'all'} ]
         },
         rangeslider: {autorange: true}
-    }
-  });
+    },
+    barmode: 'stack'
+  }
+  );
 };
 
