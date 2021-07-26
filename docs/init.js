@@ -57,7 +57,28 @@ async function init(){
 
 }
 
-init();
+async function init2(){
+	let list = await init_fetch();
+	// list2 = {}
+	// list.forEach( a => { list2[a[1]] = {"url":url+a[2], "description":a[3]}; } )
+
+	const nav_prefix = 'nav_tab_'
+	document.getElementById('nav_top').innerHTML='<ul id="nav_top1">'+generateTabs(list)+'</ul>'
+
+	Object.keys(list2).forEach( 
+		a => {add_eventlistener(nav_prefix+ a, change_tab2, list2[a], nav_prefix+a);} 
+	)
+
+	if (window.location.hash){ 
+		change_tab2( {"url":list2[window.location.hash.slice(1)]["url"], "description":list2[window.location.hash.slice(1)]["description"] } , nav_prefix+window.location.hash.slice(1));}
+	else {
+		const firstkey = Object.keys(list2)[0];
+		change_tab2( list2[firstkey], nav_prefix+firstkey);
+	}
+
+}
+
+init2();
 
 // list = init();
 // console.log(list)
