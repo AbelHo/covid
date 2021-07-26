@@ -8,6 +8,25 @@
 // div_chart = "graph"
 
 chart_type = 'scatter';//bar
+layout_default = 
+{
+    title: "",
+    xaxis: {
+      rangeselector: {
+        buttons: [{ count: 1, label: '1h', step: 'hour', stepmode: 'backward' },
+          { count: 1, label: '1d', step: 'day', stepmode: 'backward' },
+          { count: 7, label: '1w', step: 'day', stepmode: 'backward' },
+          { count: 1, label: '1m', step: 'month', stepmode: 'backward' },
+          { count: 3, label: '3m', step: 'month', stepmode: 'backward' },
+          { count: 6, label: '6m', step: 'month', stepmode: 'backward' },
+          { count: 1, label: '1y', step: 'year', stepmode: 'backward' },
+          { count: 1, label: 'YTD', step: 'year', stepmode: 'todate' },
+          {step: 'all'} ]
+      },
+      rangeslider: {autorange: true}
+  },
+  barmode: 'stack'
+};
 
 function csv2data(allRows) {
 
@@ -31,12 +50,39 @@ function csv2data(allRows) {
   return y;//{"x": x, "y":y}
 };
 
+// function csv2data2(allRows, index="date") {
+
+//   console.log(allRows);
+//   y={}
+//   params = Object.keys(allRows[0])//.forEach(key => {console.log(key, row[key]);});
+//   Object.keys(allRows[0]).forEach(key => { y[key]=[];});
+
+//   //var x = [], y = [];
+
+//   for (var i=0; i<allRows.length; i++) {
+//     row = allRows[i];
+//     // x.push( row['datetime'] );
+//     Object.keys(row).forEach(key => { 
+//       if (typeof row[key] == "string")
+//         {  }
+//       y[key].push(row[key]);
+//     });
+//     // y.push( row[param] );
+//     // if (param=="")
+//     // { Object.keys(row).forEach(key => { y[key].push(row[key]);}); }
+//   }
+//   //console.log( 'X',x, 'Y',y );
+
+//   return y;//{"x": x, "y":y}
+// };
+
 async function csv2plot(url, div_chart_id="graph", xkey=undefined, title=url) {
   console.log(url)
   rq = await fetch(url)
-  data = await rq.text()
+  rawdata = await rq.text()
 
-  data = await csv2data( Plotly.d3.csv.parse(data) )
+  // data = await csv2data( Plotly.d3.csv.parse(data) )
+  data = await csv2data( d3.csvParse(rawdata,d3.autoType) )
   if (xkey===undefined){
     if ("datetime" in data)
       { xkey="datetime"; }
@@ -104,7 +150,7 @@ function makePlotly( x, y, title, div_chart_id){
 // xkey: key of x-axis data in (y)
 // y: object with each key as y-axis with array of data
 // sensor: grapht title
-function makePlotly_multi( xkey, data , title, div_chart_id){
+function makePlotly_multi( xkey, data , title, div_chart_id, layoutsetting=layout_default){
   // xkey = "datetime"
   // var plotDiv = document.getElementById("plot");
   y = data;
@@ -125,26 +171,9 @@ function makePlotly_multi( xkey, data , title, div_chart_id){
       });
     // y[key]=[];
   });
-
-  Plotly.newPlot(div_chart_id, traces, 
-    {
-      title: title,
-      xaxis: {
-        rangeselector: {
-          buttons: [{ count: 1, label: '1h', step: 'hour', stepmode: 'backward' },
-            { count: 1, label: '1d', step: 'day', stepmode: 'backward' },
-            { count: 7, label: '1w', step: 'day', stepmode: 'backward' },
-            { count: 1, label: '1m', step: 'month', stepmode: 'backward' },
-            { count: 3, label: '3m', step: 'month', stepmode: 'backward' },
-            { count: 6, label: '6m', step: 'month', stepmode: 'backward' },
-            { count: 1, label: '1y', step: 'year', stepmode: 'backward' },
-            { count: 1, label: 'YTD', step: 'year', stepmode: 'todate' },
-            {step: 'all'} ]
-        },
-        rangeslider: {autorange: true}
-    },
-    barmode: 'stack'
-  }
-  );
+  layout = JSON.parse(JSON.stringify(layoutsetting));
+  layout["title"] = title;
+  // console.log(layout)
+  Plotly.newPlot(div_chart_id, traces, layout);
 };
 
