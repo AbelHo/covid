@@ -47,7 +47,7 @@ async function init(){
 
 	const nav_prefix = 'nav_tab_'
 	document.getElementById('nav_top').innerHTML='<ul id="nav_top1">'+generateTabs(list)+'</ul>'
-	list.forEach( a => {add_eventlistener(nav_prefix+ a[1], change_tab, [[ list2[a[1]]["url"],undefined,undefined,list2[a[1]]["description"] ], nav_prefix+a[1]]);} )
+	list.forEach( a => {add_eventlistener(nav_prefix+ a[1], change_tab, [ list2[a[1]]["url"],undefined,undefined,list2[a[1]]["description"], nav_prefix+a[1]]);} )
 
 	if (window.location.hash){ change_tab( [ list2[window.location.hash.slice(1)]["url"],undefined,undefined,list2[window.location.hash.slice(1)]["description"] ] , nav_prefix+window.location.hash.slice(1));}
 	else {
