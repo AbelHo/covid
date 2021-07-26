@@ -42,6 +42,8 @@ async function csv2plot(url, div_chart_id="graph", xkey=undefined, title=url) {
       { xkey="datetime"; }
     else if ("date" in data)
       { xkey="date"; }
+    else if ("Date" in data)
+      { xkey="Date"; }
   }
   makePlotly_multi(xkey,Object.assign({},data),title,div_chart_id)
 
