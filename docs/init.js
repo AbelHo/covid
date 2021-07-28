@@ -5,8 +5,8 @@ url = "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main"
 // item = "epidemic/cases_malaysia.csv"
 
 if (window.location.search){
-	urlSearchParams = new URLSearchParams(window.location.search);
-	params = Object.fromEntries(urlSearchParams.entries());
+	let urlSearchParams = new URLSearchParams(window.location.search);
+	let params = Object.fromEntries(urlSearchParams.entries());
 	if (params.url){
 		url = params.url
 	}
@@ -29,14 +29,31 @@ async function init_fetch(){
 		list=[];
 	}
 	
-	return list
+	return list //ToFix return list2 as well
 }
 
-function generateTabs(list){
+function generateTabs_base(list, nav_prefix='nav_tab_', hash_name="topic"){
+	hashparams = new URLSearchParams(window.location.hash.slice(1))
 	let out = ''
-	const nav_prefix = 'nav_tab_'
+	// const nav_prefix = 'nav_tab_'
 
-	list.forEach( a => { out+='<li id='+nav_prefix+ a[1] +'><a href="#'+a[1]+'">'+a[1]+'</a></li>'; } )
+	list.forEach( a => {
+		hashparams.set(hash_name, a);
+		out+='<li id="'+nav_prefix+ a +'""><a href="#'+hashparams.toString()+'">'+a+'</a></li>';
+	} )
+	return out
+}
+
+function generateTabs(list, nav_prefix='nav_tab_', hash_name="topic"){
+	hashparams = new URLSearchParams(window.location.hash.slice(1))
+
+	let out = ''
+	// const nav_prefix = 'nav_tab_'
+
+	list.forEach( a => { 
+		hashparams.set(hash_name, a[1])
+		out+='<li id='+nav_prefix+ a[1] +'><a href="#'+hashparams.toString()+'">'+a[1]+'</a></li>'; 
+	} )
 	return out
 }
 
@@ -63,14 +80,21 @@ async function init2(){
 	// list.forEach( a => { list2[a[1]] = {"url":url+a[2], "description":a[3]}; } )
 
 	const nav_prefix = 'nav_tab_'
-	document.getElementById('nav_top').innerHTML='<ul id="nav_top1">'+generateTabs(list)+'</ul>'
+	const nav_id = 'nav_top'
+	document.getElementById(nav_id).innerHTML='<ul id="'+nav_id+'_ul">'+generateTabs(list)+'</ul>'
 
-	Object.keys(list2).forEach( 
-		a => {add_eventlistener(nav_prefix+ a, change_tab2, list2[a], nav_prefix+a);} 
-	)
+	if (list.length!=0){
+		Object.keys(list2).forEach( 
+			a => {add_eventlistener(nav_prefix+ a, change_tab2, list2[a], nav_prefix+a);} 
+		)
+	}
 
 	if (window.location.hash){ 
-		change_tab2( {"url":list2[window.location.hash.slice(1)]["url"], "description":list2[window.location.hash.slice(1)]["description"] } , nav_prefix+window.location.hash.slice(1));}
+		hashparams = new URLSearchParams(window.location.hash.slice(1))
+		hash_dict = Object.fromEntries(hashparams.entries());
+		const hash_name = "topic"
+
+		change_tab2( {"url":list2[hash_dict[hash_name]]["url"], "description":list2[hash_dict[hash_name]]["description"] } , nav_prefix+hash_dict[hash_name]);}
 	else {
 		const firstkey = Object.keys(list2)[0];
 		change_tab2( list2[firstkey], nav_prefix+firstkey);

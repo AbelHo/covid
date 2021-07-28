@@ -34,3 +34,41 @@
   background-color: #04AA6D;
 }
 
+
+
+.navbar_small {
+  width: 100%;
+  background-color: chocolate;
+  overflow: auto;
+}
+
+.navbar_small ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar_small li {
+  float: left;
+  padding: 5px;
+  color: white;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.navbar_small a {
+  float: left;
+  /*padding: 12px;*/
+  color: white;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.navbar_small a:hover {
+  background-color: #000;
+}
+
+.navbar_small_active {
+  background-color: #04AA6D;
+}
+
