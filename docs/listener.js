@@ -33,7 +33,7 @@ async function change_tab2(item, id){
 		// df=df.set_index({key:df.columns[0]});
 	}
 	layout = JSON.parse(JSON.stringify(layout_default))
-	layout["title"] = item["description"];
+	layout["title"] = item["description"] + "  [last updated: "+df.index[df.index.length-1]+"]";
 
 	try{
 		document.getElementById(id).parentNode.childNodes.forEach( a => {document.getElementById(a.id).className="";} );
@@ -48,9 +48,8 @@ async function change_tab2(item, id){
 	if (ndf){
 		console.log("Category Exist!")
 		
-		layout = JSON.parse(JSON.stringify(layout_default))
-		
-		layout["title"] = item["description"];//+"  ("+category+")";
+		// layout = JSON.parse(JSON.stringify(layout_default))
+		// layout["title"] = item["description"];//+"  ("+category+")";
 		// ndf[category].plot("graph").line({"layout": layout})
 
 		const nav_prefix = 'nav_tab2_'
@@ -58,6 +57,7 @@ async function change_tab2(item, id){
 		document.getElementById("div_selector_category").innerHTML='<nav id="'+nav_id+'"><ul id="'+nav_id+'_ul">'+generateTabs_base(Object.keys(ndf), nav_prefix, "category_"+col)+'</ul></nav>'
 		Object.keys(ndf).forEach( a =>{
 			document.getElementById(nav_prefix+a).addEventListener("click", function (event) {
+				category = a
 				document.getElementById(nav_prefix+a).parentNode.childNodes.forEach( b => {document.getElementById(b.id).className="";} );
 				document.getElementById(nav_prefix+a).className='navbar_small_active';
 				ndf[a].plot("graph").line({"layout": layout});
