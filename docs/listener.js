@@ -95,7 +95,7 @@ function add_eventlistener(id, func, args){
 
 
 
-// helper
+// #~ helpers
 function removeDuplicate(myArray){
 	// let myArray = ['a', 'b', 'a', 'b', 'c', 'e', 'e', 'c', 'd', 'd', 'd', 'd']
 	let myArrayWithNoDuplicates = myArray.reduce(function (accumulator, currentValue) {
@@ -136,4 +136,54 @@ function check_category(df, col="state"){
 		return ndf
 	}
 	return false
+}
+
+
+// #~ for embedding, hide all
+function hideall(classname_of_hide="hidden"){
+	[...document.body.children].forEach( a=> { a.classList.add(classname_of_hide);} )
+	document.getElementById("graphs").classList.remove(classname_of_hide)
+}
+function unhideall(classname_of_hide="hidden"){
+	[...document.body.children].forEach( a=> { a.classList.remove(classname_of_hide);} )
+}
+
+// #~ buggy
+function copyToClipboard (text) {
+  if (navigator.clipboard) { // default: modern asynchronous API
+    return navigator.clipboard.writeText(text);
+  } else if (window.clipboardData && window.clipboardData.setData) {     // for IE11
+    window.clipboardData.setData('Text', text);
+    return Promise.resolve();
+  } else {
+    // workaround: create dummy input
+    const input = h('input', { type: 'text' });
+    input.value = text;
+    document.body.append(input);
+    input.focus();
+    input.select();
+    document.execCommand('copy');
+    input.remove();
+    return Promise.resolve();
+  }
+}
+
+function textToClipboard (text) {
+    var dummy = document.createElement("textarea");
+    document.body.appendChild(dummy);
+    dummy.value = text;
+    dummy.select();
+    document.execCommand("copy");
+    document.body.removeChild(dummy);
+}
+
+function copyurlToEmbed(embed_var="embed"){
+	if (window.location.hash){
+		hashparams = new URLSearchParams(window.location.hash.slice(1))
+		hashparams.set(embed_var, "true");
+		textToClipboard(window.location.origin+window.location.pathname+window.location.search+"#"+hashparams.toString());
+	}
+	else{
+		textToClipboard(window.location.href+"#"+embed_var+"=true")
+	}
 }

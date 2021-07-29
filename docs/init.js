@@ -89,16 +89,21 @@ async function init2(){
 		)
 	}
 
-	if (window.location.hash){ 
-		hashparams = new URLSearchParams(window.location.hash.slice(1))
-		hash_dict = Object.fromEntries(hashparams.entries());
-		const hash_name = "topic"
+	// #~ parse hash values
+	hashparams = new URLSearchParams(window.location.hash.slice(1))
+	hash_dict = Object.fromEntries(hashparams.entries());
 
-		change_tab2( {"url":list2[hash_dict[hash_name]]["url"], "description":list2[hash_dict[hash_name]]["description"] } , nav_prefix+hash_dict[hash_name]);}
+	let hash_name = "topic"
+	if (hash_dict[hash_name]){
+		change_tab2( {"url":list2[hash_dict[hash_name]]["url"], "description":list2[hash_dict[hash_name]]["description"] } , nav_prefix+hash_dict[hash_name]);
+	}
 	else {
 		const firstkey = Object.keys(list2)[0];
 		change_tab2( list2[firstkey], nav_prefix+firstkey);
 	}
+
+	// #~ check embed
+	if (hash_dict["embed"]=="true"){ hideall("hidden") }
 
 }
 
