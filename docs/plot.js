@@ -177,3 +177,31 @@ function makePlotly_multi( xkey, data , title, div_chart_id, layoutsetting=layou
   Plotly.newPlot(div_chart_id, traces, layout);
 };
 
+
+function makePlotly_multi_direct( x, y, title, div_chart_id, layoutsetting=layout_default, plot_type="new"){
+  // xkey = "datetime"
+  // var plotDiv = document.getElementById("plot");
+  y = data;
+  var traces = []
+  // var traces = [{
+  //   x: x, 
+  //   y: y,
+  //   name: param
+  // }];
+  // x = y[xkey]
+  // delete y[xkey]
+  Object.keys(y).forEach(key => { 
+    traces.push({
+        x: x, 
+        y: y[key],
+        name: key,
+        type: chart_type
+      });
+    // y[key]=[];
+  });
+  layout = JSON.parse(JSON.stringify(layoutsetting));
+  layout["title"] = title;
+  // console.log(layout)
+  Plotly.newPlot(div_chart_id, traces, layout);
+};
+
