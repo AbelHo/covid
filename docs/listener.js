@@ -1,3 +1,10 @@
+/* #~ GLOBAL VARIABLE LIST
+category
+df
+-- ndf
+-- index_name
+*/
+
 function change_tab(item, id){
 	csv2plot(...item);
 	try{
@@ -8,23 +15,24 @@ function change_tab(item, id){
 	document.getElementById("source_current").innerHTML=item[0]; document.getElementById("source_current").href=item[0]; document.getElementById("source_current").target="_blank";
 }
 
-async function change_tab2(item, id){
+async function change_tab2(item, id, category_header="state"){
+	graph_id="graph";
 	df = await dfd.read_csv(item["url"]);
 	try { 
 		if ("datetime" in df)
-	      { df=df.set_index({key:"datetime"}); }
+	      { df=df.set_index({key:"datetime"}); index_name="datetime"}
 	    else if ("date" in df)
-	      { df=df.set_index({key:"date"}); }
+	      { df=df.set_index({key:"date"}); index_name="date"}
 	    else if ("Date" in df)
-	      { df=df.set_index({key:"Date"}); }
+	      { df=df.set_index({key:"Date"}); index_name="Date"}
 	    else if ("Datetime" in df)
-	      { df=df.set_index({key:"Datetime"}); }
+	      { df=df.set_index({key:"Datetime"}); index_name="Datetime"}
 	    else if ("time" in df)
-	      { df=df.set_index({key:"time"}); }
+	      { df=df.set_index({key:"time"}); index_name="time"}
 	    else if ("Time" in df)
-	      { df=df.set_index({key:"Time"}); }
+	      { df=df.set_index({key:"Time"}); index_name="Time"}
 	  	else
-  		  { console.log("can't auto detect index") }
+  		  { console.log("can't auto detect index"); index_name=undefined; }
 		
 	}
 	catch(e) {
@@ -43,41 +51,44 @@ async function change_tab2(item, id){
 	document.getElementById("source_current").innerHTML=item["url"]; document.getElementById("source_current").href=item["url"]; document.getElementById("source_current").target="_blank";
 
 	// #~ if category exist
-	let col="state"
-	ndf = check_category(df, col)
+	// let category="state"
+	ndf = check_category(df, category_header)
 	if (ndf){
 		console.log("Category Exist!")
 		
 		// layout = JSON.parse(JSON.stringify(layout_default))
 		// layout["title"] = item["description"];//+"  ("+category+")";
-		// ndf[category].plot("graph").line({"layout": layout})
+		// ndf[category].plot(graph_id).line({"layout": layout})
 
 		const nav_prefix = 'nav_tab2_'
 		const nav_id = 'nav_top2'
-		document.getElementById("div_selector_category").innerHTML='<nav id="'+nav_id+'"><ul id="'+nav_id+'_ul">'+generateTabs_base(Object.keys(ndf), nav_prefix, "category_"+col)+'</ul></nav>'
+		document.getElementById("div_selector_category").innerHTML='<nav id="'+nav_id+'"><ul id="'+nav_id+'_ul">'+generateTabs_base(Object.keys(ndf), nav_prefix, "category_"+category_header)+'</ul></nav>'
 		Object.keys(ndf).forEach( a =>{
 			document.getElementById(nav_prefix+a).addEventListener("click", function (event) {
 				category = a
 				document.getElementById(nav_prefix+a).parentNode.childNodes.forEach( b => {document.getElementById(b.id).className="";} );
 				document.getElementById(nav_prefix+a).className='navbar_small_active';
-				ndf[a].plot("graph").line({"layout": layout});
+				plotDanfo(ndf[category], graph_id, chart_type, layout)
+				// ndf[a].plot(graph_id).line({"layout": layout});
 			}); 
 		})
 
 		hashparams = new URLSearchParams(window.location.hash.slice(1))
 		hash_dict = Object.fromEntries(hashparams.entries());
-		category = hash_dict["category_"+col]
+		category = hash_dict["category_"+category_header]
 		if (!category){ category = Object.keys(ndf)[0] }
 
 		document.getElementById(nav_prefix+category).className='navbar_small_active';
-		ndf[category].plot("graph").line({"layout": layout})
+		plotDanfo(ndf[category], graph_id, chart_type, layout)
+		// ndf[category].plot(graph_id).line({"layout": layout})
 
 		// Object.keys(ndf).forEach( a => {add_eventlistener(nav_prefix+ a, change_tab, [ list2[a["url"],undefined,undefined,list2[a["description"], nav_prefix+a);} )
 	}
 	else{ 
 		document.getElementById("div_selector_category").innerHTML='';
-		if (chart_type=="scatter"){ df.plot("graph").line({"layout": layout}); }
-		else if (chart_type=="bar"){ df.plot("graph").bar({"layout": layout}); }
+		plotDanfo(df, graph_id, chart_type, layout)
+		// if (chart_type=="scatter"){ df.plot(graph_id).line({"layout": layout}); }
+		// else if (chart_type=="bar"){ df.plot(graph_id).bar({"layout": layout}); }
 	}
 
 }
@@ -111,18 +122,18 @@ function removeDuplicate(myArray){
 
 
 // #~ check for string categories
-function check_category(df, col="state"){
-	// col = "state"
-	if (df.columns.includes(col)){
-		let items = removeDuplicate(df[col].data)
+function check_category(df, category="state"){
+	// category = "state"
+	if (df.columns.includes(category)){
+		let items = removeDuplicate(df[category].data)
 
 		ndf={}
 		items.forEach( item => {
 		// item = "Johor"
 		console.log(item)
-		ndf[item] = df.query({ column: col, is: "==", to: item })
-		ndf[item].drop( {columns: [col], inplace: true} )
-		//ndf[item] = ndf[item].drop( {columns: [col]} )
+		ndf[item] = df.query({ column: category, is: "==", to: item })
+		ndf[item].drop( {columns: [category], inplace: true} )
+		//ndf[item] = ndf[item].drop( {columns: [category]} )
 
 		col_namechange={}
 		ndf[item].columns.forEach( a=>{ col_namechange[a]=item+'_'+a } )
@@ -132,7 +143,7 @@ function check_category(df, col="state"){
 		/////  catch(err){}
 		})
 
-		// ndf[Object.keys(ndf)[0]].plot("graph").line({"layout": layout_default})
+		// ndf[Object.keys(ndf)[0]].plot(graph_id).line({"layout": layout_default})
 		return ndf
 	}
 	return false

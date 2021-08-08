@@ -1,3 +1,11 @@
+/* #~ GLOBAL VARIABLE LIST
+url
+category
+list2
+df
+-- ndf
+-- index_name
+*/
 // parse readme file for indexing
 //~ import from listener.js
 url = "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main"
@@ -11,6 +19,16 @@ if (window.location.search){
 		url = params.url
 	}
 }
+
+if (window.location.hash){
+	hashparams = new URLSearchParams(window.location.hash.slice(1))
+	hash_dict = Object.fromEntries(hashparams.entries());
+	if (hash_dict["chart_type"]) {	chart_type = hash_dict["chart_type"] }
+	else { chart_type = "line"}
+}
+else { chart_type = "line"}
+console.log("checkbox_"+chart_type)
+document.getElementById("checkbox_"+chart_type).checked=true
 
 
 

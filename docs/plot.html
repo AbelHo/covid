@@ -9,6 +9,7 @@
 </head>
 
 <body>
+<div id="root">
   <div id="div_urlselector">
     <button id="button_covid_malaysia" onclick="window.location.href='?url=https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main'">covid malaysia</button>
     <button id="button_covid_malaysia" onclick="window.location.href='?url=https://raw.githubusercontent.com/CITF-Malaysia/citf-public/main'">covid vaccination malaysia</button>
@@ -31,6 +32,11 @@
   <div id="div_selector_category" class="navbar_small"></div>
   <div id="graphs"><!-- Plotly charts will be drawn inside this DIV -->
     <div id="graph"><!-- Plotly chart will be drawn inside this DIV --></div>
+    <div id="div_chart_type">
+      <input type="checkbox" id="checkbox_line" onclick="document.getElementById('div_chart_type').childNodes.forEach( a=> {if (a.id!='checkbox_line') {a.checked=false;}}); chart_type='line';if (ndf){plotDanfo(ndf[category], graph_id, chart_type, layout)} else {plotDanfo(df, graph_id, chart_type, layout)}"> Line
+      <input type="checkbox" id="checkbox_bar" onclick="document.getElementById('div_chart_type').childNodes.forEach( a=> {if (a.id!='checkbox_bar') {a.checked=false;}}); chart_type='bar'; if (ndf){plotDanfo(ndf[category], graph_id, chart_type, layout)} else {plotDanfo(df, graph_id, chart_type, layout)}"> Bar
+      <input type="checkbox" id="checkbox_table" onclick="document.getElementById('div_chart_type').childNodes.forEach( a=> {if (a.id!='checkbox_table') {a.checked=false;}}); chart_type='table'; if (ndf){plotDanfo(ndf[category], graph_id, chart_type, layout)} else {plotDanfo(df, graph_id, chart_type, layout)}"> Table
+    </div>
   </div>
 
   <script src="plot.js"></script>
@@ -58,5 +64,6 @@
     <p>Current Source:</p>
     <a id="source_current"></a>
   </footer>
+</div>
 </body>
 </html>

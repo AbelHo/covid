@@ -25,6 +25,7 @@ layout_default =
       },
       rangeslider: {autorange: true}
   },
+  showlegend: true,
   barmode: 'stack'
 };
 
@@ -205,3 +206,22 @@ function makePlotly_multi_direct( x, y, title, div_chart_id, layoutsetting=layou
   Plotly.newPlot(div_chart_id, traces, layout);
 };
 
+
+// #~ danfo dataframe plots
+function plotDanfo(vdf, id, chart_type="scatter", layout=layout_default){
+  hashparams = new URLSearchParams(window.location.hash.slice(1))
+  hashparams.set("chart_type", chart_type)
+  window.location.hash=hashparams.toString()
+
+  if (chart_type=="line"){ return vdf.plot(id).line({"layout": layout}); }
+  else if (chart_type=="bar"){ return vdf.plot(id).bar({"layout": layout}); }
+  else if (chart_type=="table"){ 
+    vdf = vdf.copy()
+    if (typeof index_name !== 'undefined') { vdf.addColumn({"column":index_name, "value":vdf.index_arr}); }
+    graph = vdf.plot(id).table({"layout": layout}); }
+    // vdf.drop( {columns: ["date"], inplace:true} )
+    return graph
+}
+
+// #~ heatmap for check in time 
+// Plotly.newPlot('graph', [{z:df.data, y: df.index_arr, x:df.columns, type:"heatmap"}])
