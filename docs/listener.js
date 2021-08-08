@@ -152,11 +152,11 @@ function check_category(df, category="state"){
 
 // #~ for embedding, hide all
 function hideall(classname_of_hide="hidden"){
-	[...document.body.children].forEach( a=> { a.classList.add(classname_of_hide);} )
+	[...document.getElementById('root').children].forEach( a=> { a.classList.add(classname_of_hide);} )
 	document.getElementById("graphs").classList.remove(classname_of_hide)
 }
 function unhideall(classname_of_hide="hidden"){
-	[...document.body.children].forEach( a=> { a.classList.remove(classname_of_hide);} )
+	[...document.getElementById('root').children].forEach( a=> { a.classList.remove(classname_of_hide);} )
 }
 
 // #~ buggy
