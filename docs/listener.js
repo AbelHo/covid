@@ -90,7 +90,7 @@ async function change_tab2(item, id, category_header="state"){
 		// if (chart_type=="scatter"){ df.plot(graph_id).line({"layout": layout}); }
 		// else if (chart_type=="bar"){ df.plot(graph_id).bar({"layout": layout}); }
 	}
-
+	document.getElementById('checkbox_percentage').checked=false
 }
 
 function add_eventlistener(id, func, args){
