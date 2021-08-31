@@ -39,7 +39,9 @@
     </div>
     <div id="div_percentage">
       <input type="checkbox" id="checkbox_percentage" onclick="if (document.getElementById('checkbox_percentage').checked
-){add_percentage_df('graph', df, ndf ? category : undefined)} else {Plotly.deleteTraces('graph',-1); Plotly.relayout('graph',{yaxis:{autorange: true}})}"> Percentage
+){add_percentage_df('graph', df, ndf ? category : undefined, 'pop')} else {Plotly.deleteTraces('graph',-1); Plotly.relayout('graph',{yaxis:{autorange: true}})}"> Percentage (all)
+      <input type="checkbox" id="checkbox_percentage_18" onclick="if (document.getElementById('checkbox_percentage_18').checked
+){add_percentage_df('graph', df, ndf ? category : undefined, 'pop_18')} else {Plotly.deleteTraces('graph',-1); Plotly.relayout('graph',{yaxis:{autorange: true}})}"> Percentage (above 18)
     </div>
   </div>
 

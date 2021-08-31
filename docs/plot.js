@@ -247,7 +247,7 @@ function add_percentage(id='graph', max_percentage=100, dummy_x=0, dummy_y=0, vd
 }
 
 // add_percentage_df('graph', df, ndf ? category : undefined)
-async function add_percentage_df(id, vdf, category){
+async function add_percentage_df(id, vdf, category, item="pop"){
   category_header = "state"
     df_population = await dfd.read_csv(url+"/static/population.csv");
   // df_population_cat = check_category(df_population, category_header)
@@ -260,7 +260,7 @@ async function add_percentage_df(id, vdf, category){
     }
     data_max = Math.max( ...(new dfd.DataFrame(vdf.data)).max().data )
 
-    population = df_population_cat.data_tensors[category]["pop"].data[0]
+    population = df_population_cat.data_tensors[category][item].data[0]
 
   add_percentage(id, data_max/population, vdf.index_arr[ Math.floor(vdf.index_arr.length/2) ], 0, vdf)
 }
