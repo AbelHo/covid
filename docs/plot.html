@@ -37,6 +37,10 @@
       <input type="checkbox" id="checkbox_bar" onclick="document.getElementById('div_chart_type').childNodes.forEach( a=> {if (a.id!='checkbox_bar') {a.checked=false;}}); chart_type='bar'; if (ndf){plotDanfo(ndf[category], graph_id, chart_type, layout)} else {plotDanfo(df, graph_id, chart_type, layout)}"> Bar
       <input type="checkbox" id="checkbox_table" onclick="document.getElementById('div_chart_type').childNodes.forEach( a=> {if (a.id!='checkbox_table') {a.checked=false;}}); chart_type='table'; if (ndf){plotDanfo(ndf[category], graph_id, chart_type, layout)} else {plotDanfo(df, graph_id, chart_type, layout)}"> Table
     </div>
+    <div id="div_percentage">
+      <input type="checkbox" id="checkbox_percentage" onclick="if (document.getElementById('checkbox_percentage').checked
+){add_percentage_df('graph', df, ndf ? category : undefined)} else {Plotly.deleteTraces('graph',-1); Plotly.relayout('graph',{yaxis:{autorange: true}})}"> Percentage
+    </div>
   </div>
 
   <script src="plot.js"></script>

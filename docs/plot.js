@@ -225,3 +225,42 @@ function plotDanfo(vdf, id, chart_type="scatter", layout=layout_default){
 
 // #~ heatmap for check in time 
 // Plotly.newPlot('graph', [{z:df.data, y: df.index_arr, x:df.columns, type:"heatmap"}])
+
+// #~ plot percentage population y-axis
+function add_percentage(id='graph', max_percentage=100, dummy_x=0, dummy_y=0, vdf=df){
+  Plotly.addTraces('graph', {x:[dummy_x], y: [dummy_y], yaxis:"y2", showlegend:false, marker:{size: 0}});
+  data_max = Math.max( ...(new dfd.DataFrame(vdf.data)).max().data )
+  Plotly.relayout('graph',{
+  showlegend: true,
+  legend: {x: 1.1,xanchor: 'left', y: 1},
+  yaxis: { range: [0, data_max]},
+  yaxis2: {
+    title: 'Percentage Population(%)',
+    titlefont: {color: 'rgb(148, 103, 189)'},
+    tickfont: {color: 'rgb(148, 103, 189)'},
+    overlaying: 'y',
+    side: 'right',
+    x: 1.1,
+    range: [0, max_percentage*100]
+  }
+})
+}
+
+// add_percentage_df('graph', df, ndf ? category : undefined)
+async function add_percentage_df(id, vdf, category){
+  category_header = "state"
+    df_population = await dfd.read_csv(url+"/static/population.csv");
+  // df_population_cat = check_category(df_population, category_header)
+  df_population_cat = df_population.groupby([category_header])
+    if (!category){
+      category = "Malaysia"
+    }
+    else{
+      vdf = ndf[category]
+    }
+    data_max = Math.max( ...(new dfd.DataFrame(vdf.data)).max().data )
+
+    population = df_population_cat.data_tensors[category]["pop"].data[0]
+
+  add_percentage(id, data_max/population, vdf.index_arr[ Math.floor(vdf.index_arr.length/2) ], 0, vdf)
+}
