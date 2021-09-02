@@ -218,9 +218,14 @@ function plotDanfo(vdf, id, chart_type="scatter", layout=layout_default){
   else if (chart_type=="table"){ 
     vdf = vdf.copy()
     if (typeof index_name !== 'undefined') { vdf.addColumn({"column":index_name, "value":vdf.index_arr}); }
-    graph = vdf.plot(id).table({"layout": layout}); }
+    return vdf.plot(id).table({"layout": layout});
+  }
+  else if (chart_type=="heatmap"){ 
+    transpose = m => m[0].map((x,i) => m.map(x => x[i]))
+    return Plotly.newPlot(id, [ {x: vdf.index_arr, y: vdf.columns, z: transpose(vdf.data), type: 'heatmap'}])
+  }
     // vdf.drop( {columns: ["date"], inplace:true} )
-    return graph
+  return graph
 }
 
 // #~ heatmap for check in time 

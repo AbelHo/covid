@@ -35,6 +35,7 @@
     <div id="div_chart_type">
       <input type="checkbox" id="checkbox_line" onclick="document.getElementById('div_chart_type').childNodes.forEach( a=> {if (a.id!='checkbox_line') {a.checked=false;}}); chart_type='line';if (ndf){plotDanfo(ndf[category], graph_id, chart_type, layout)} else {plotDanfo(df, graph_id, chart_type, layout)}"> Line
       <input type="checkbox" id="checkbox_bar" onclick="document.getElementById('div_chart_type').childNodes.forEach( a=> {if (a.id!='checkbox_bar') {a.checked=false;}}); chart_type='bar'; if (ndf){plotDanfo(ndf[category], graph_id, chart_type, layout)} else {plotDanfo(df, graph_id, chart_type, layout)}"> Bar
+      <input type="checkbox" id="checkbox_heatmap" onclick="document.getElementById('div_chart_type').childNodes.forEach( a=> {if (a.id!='checkbox_heatmap') {a.checked=false;}}); chart_type='heatmap'; if (ndf){plotDanfo(ndf[category], graph_id, chart_type, layout)} else {plotDanfo(df, graph_id, chart_type, layout)}"> Heatmap
       <input type="checkbox" id="checkbox_table" onclick="document.getElementById('div_chart_type').childNodes.forEach( a=> {if (a.id!='checkbox_table') {a.checked=false;}}); chart_type='table'; if (ndf){plotDanfo(ndf[category], graph_id, chart_type, layout)} else {plotDanfo(df, graph_id, chart_type, layout)}"> Table
     </div>
     <div id="div_percentage">
