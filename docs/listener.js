@@ -20,17 +20,17 @@ async function change_tab2(item, id, category_header="state"){
 	df = await dfd.readCSV(item["url"]); #await dfd.read_csv(item["url"]);
 	try { 
 		if ("datetime" in df)
-	      { df=df.set_index({key:"datetime"}); index_name="datetime"}
+	      { df=df.setIndex({column:"datetime"}); index_name="datetime"}
 	    else if ("date" in df)
-	      { df=df.set_index({key:"date"}); index_name="date"}
+	      { df=df.setIndex({column:"date"}); index_name="date"}
 	    else if ("Date" in df)
-	      { df=df.set_index({key:"Date"}); index_name="Date"}
+	      { df=df.setIndex({column:"Date"}); index_name="Date"}
 	    else if ("Datetime" in df)
-	      { df=df.set_index({key:"Datetime"}); index_name="Datetime"}
+	      { df=df.setIndex({column:"Datetime"}); index_name="Datetime"}
 	    else if ("time" in df)
-	      { df=df.set_index({key:"time"}); index_name="time"}
+	      { df=df.setIndex({column:"time"}); index_name="time"}
 	    else if ("Time" in df)
-	      { df=df.set_index({key:"Time"}); index_name="Time"}
+	      { df=df.setIndex({column:"Time"}); index_name="Time"}
 	  	else
   		  { console.log("can't auto detect index"); index_name=undefined; }
 		
@@ -38,7 +38,7 @@ async function change_tab2(item, id, category_header="state"){
 	catch(e) {
 		console.error("Error: can't auto detect index")
 		console.error(e);
-		// df=df.set_index({key:df.columns[0]});
+		// df=df.setIndex({column:df.columns[0]});
 	}
 	layout = JSON.parse(JSON.stringify(layout_default))
 	layout["title"] = item["description"] + "  [last updated: "+df.index[df.index.length-1]+"]";
