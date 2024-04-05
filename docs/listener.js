@@ -17,7 +17,7 @@ function change_tab(item, id){
 
 async function change_tab2(item, id, category_header="state"){
 	graph_id="graph";
-	df = await dfd.read_csv(item["url"]);
+	df = await dfd.readCSV(item["url"]); #await dfd.read_csv(item["url"]);
 	try { 
 		if ("datetime" in df)
 	      { df=df.set_index({key:"datetime"}); index_name="datetime"}
